@@ -1,0 +1,451 @@
+BackgroundRect backgroundRect1;
+BackgroundRect backgroundRect2; 
+BackgroundCircles[] backgroundCircles;// Array of tiny circles in the background
+GrassShape grassShape;
+GrassFlower[] grassFlower1;
+GrassFlower[] grassFlower2;
+GrassFlower[] grassFlower3;
+GrassGreen[] grassGreen1;
+GrassGreen[] grassGreen2;
+CoupleShape coupleShape;
+CoupleLoop[] coupleLoop1;
+CoupleLoop[] coupleLoop2;
+ManClothShape manClothShape;
+ManClothSquare[] manClothSquare;
+
+
+void setup() {
+  size(720,720);
+  // Parameters go inside the parentheses when the object is constructed.
+  backgroundRect1 = new BackgroundRect(color(255,0,0),50,100); 
+  backgroundRect2 = new BackgroundRect(color(0,0,255),78,150);
+  backgroundCircles = new BackgroundCircles[225];
+  int index = 0;
+  for (int y = 0; y <15; y++){
+    for (int x = 0; x < 15; x++){
+      backgroundCircles[index++] = new BackgroundCircles(x, y, int(random(-50,50)), int(random(-40,40))); 
+    }
+  } 
+  grassShape = new GrassShape();
+  grassFlower1 = new GrassFlower[25];
+  index = 0;
+  for (int y = 0; y < 5; y++){
+    for (int x = 0; x < 5; x++){
+      grassFlower1[index++] = new GrassFlower(x, y, int(random(-20,50)), int(random(-15,45)), color(247,40,113), color(243, 252, 5), 6);
+    }
+  }
+  grassFlower2 = new GrassFlower[16];
+  index = 0;
+  for (int y = 1; y < 5; y++){
+    for (int x = 1; x < 5; x++){
+      grassFlower2[index++] = new GrassFlower(x, y, int(random(-40,50)), int(random(-30,20)), color(255,255,255), color(252, 204, 5), 10);
+    }
+  }
+  grassFlower3 = new GrassFlower[9];
+  index = 0;
+  for (int y = 1; y < 4; y++){
+    for (int x = 1; x < 4; x++){
+      grassFlower3[index++] = new GrassFlower(x, y, int(random(-100,50)), int(random(-20,40)), color(134,31,11), color(250, 223, 13), 5);
+    }
+  }
+  grassGreen1 = new GrassGreen[36];
+  index = 0;
+  for (int y = 1; y < 7; y++){
+    for (int x = 1; x < 7; x++){
+      grassGreen1[index++] = new GrassGreen(x, y, int(random(-20,30)), int(random(-15,10)), color(27,250,13), 1 , 7);
+    }
+  }
+  grassGreen2 = new GrassGreen[225];
+  index = 0;
+  for (int y = 1; y < 16; y++){
+    for (int x = 1; x < 16; x++){
+      grassGreen2[index++] = new GrassGreen(x, y, int(random(-30,10)), int(random(-10,20)), color(6,67,21), 2, 16);
+    }
+  }
+  coupleShape = new CoupleShape();
+  coupleLoop1 = new CoupleLoop[36];
+  index = 0;
+  for (int y = 0; y < 4; y++){
+    for (int x = 0; x < 9; x++){
+      coupleLoop1[index++] = new CoupleLoop(x, y, 225, 25, int(random(1,5)),int(random(20,32)), color(6,67,21));
+    }
+  }
+  coupleLoop2 = new CoupleLoop[90];
+  index = 0;
+  for (int y = 0; y < 9; y++){
+    for (int x = 0; x < 10; x++){
+      coupleLoop2[index++] = new CoupleLoop(x, y, 228, 245, int(random(1,5)),int(random(20,32)), color(6,67,21));
+    }
+  }
+  manClothShape = new ManClothShape();
+  manClothSquare = new ManClothSquare[200];
+  index = 0;
+  for (int y = 0; y < 20; y++){
+    for (int x = 0; x < 10; x++){
+      manClothSquare[index++] = new ManClothSquare(x, y, 220, 0, int(random(1,10)), int(random(10,30)),int(random(0,255)));
+    }
+  }
+}
+
+void draw() {
+  background(201,107,49);
+  //backgroundRect1.display();
+  //backgroundRect2.display();
+  for (int i = 0; i < 225; i++){
+    backgroundCircles[i].display();  
+  }
+  grassShape.display();
+  for (int i = 0; i < 225; i++){
+    grassGreen2[i].display();  
+  }
+  for (int i = 0; i < 36; i++){
+    grassGreen1[i].display();  
+  }
+  for (int i = 0; i < 25; i++){
+    grassFlower1[i].display();  
+  }
+  for (int i = 0; i < 16; i++){
+    grassFlower2[i].display();  
+  }
+  for (int i = 0; i < 9; i++){
+    grassFlower3[i].display();  
+  }
+  coupleShape.display();
+  for (int i = 0; i < 36; i++){
+    coupleLoop1[i].display();  
+  }
+  for (int i = 0; i < 90; i++){
+    coupleLoop2[i].display();  
+  }
+  manClothShape.display();
+  for (int i = 0; i < 200; i++){
+    manClothSquare[i].display();  
+  }
+}
+
+
+// Even though there are multiple objects, we still only need one class
+class BackgroundRect { 
+  color c;
+  float xpos;
+  float ypos;
+
+  // The Constructor is defined with arguments.
+  BackgroundRect(color C, float Xpos, float Ypos) { 
+    c = C;
+    xpos = Xpos;
+    ypos = Ypos;
+  }
+
+  void display() {
+    stroke(0);
+    fill(c);
+    rect(xpos,ypos,20,10);
+  }
+}
+
+
+// We use BackgoundCircle class to display yellow dots in the background
+class BackgroundCircles {
+  int x;
+  int y;
+  int xDislocation;
+  int yDislocation;
+
+  BackgroundCircles(int xTemp, int yTemp, int xRandom, int yRandom) {
+    x = xTemp * 61;
+    y = yTemp * 61;
+    xDislocation = xRandom;
+    yDislocation = yRandom;
+  }  
+  
+  void display() {
+    noStroke();
+    fill(252,227,33);
+    ellipse(x + xDislocation, y + yDislocation, 5, 5);
+  }
+}
+
+
+//We use GrassShade class to display the shade of green grass
+class GrassShape{
+  
+  void display() {
+    fill(43,121,12);
+    beginShape();
+    curveVertex(-50,720);
+    curveVertex(-30,600);
+    curveVertex(24,572);
+    curveVertex(61,573);
+    curveVertex(97,561);
+    curveVertex(145,555);
+    curveVertex(203,534);
+    curveVertex(284,514);
+    curveVertex(378,496);
+    curveVertex(482,502);
+    curveVertex(538,544);
+    curveVertex(568,603);
+    curveVertex(578,622);
+    curveVertex(579,671);
+    curveVertex(581,714);
+    curveVertex(579,720);
+    curveVertex(10,750);
+    curveVertex(-100,750);
+    endShape();    
+  }
+}
+
+class GrassFlower {
+  int x;
+  int y;
+  int xDislocation;
+  int yDislocation;
+  color c1;
+  color c2;
+  int n;
+
+  GrassFlower(int xTemp, int yTemp, int xRandom, int yRandom, color C1, color C2, int number) {
+    x = xTemp * 130;
+    y = 570 + yTemp * 40;
+    xDislocation = xRandom;
+    yDislocation = yRandom;
+    c1 = C1;
+    c2 = C2;
+    n = number;
+  }  
+  
+  void display() {
+    noStroke();
+    fill(c1);
+    ellipse(x + xDislocation, y + yDislocation, 6,20); 
+    for(int i = 1; i <=n ; i++) {
+      pushMatrix();
+      translate(x + xDislocation, y + yDislocation);
+      rotate(radians(360/n*i));
+      fill(c1);
+      ellipse(0, 0, 5,20); 
+      popMatrix();
+  }
+    fill(c2);
+    ellipse(x + xDislocation, y + yDislocation, 5, 5);
+  }
+}
+
+
+class GrassGreen {
+  int x;
+  int y;
+  int xDislocation;
+  int yDislocation;
+  color c;
+  int r;
+  int scale;
+
+  GrassGreen(int xTemp, int yTemp, int xRandom, int yRandom, color C, int Diameter, int Scale) {
+    scale = Scale;
+    x = xTemp * 579 / scale;
+    y = 570 + yTemp * 150 / scale ;
+    xDislocation = xRandom;
+    yDislocation = yRandom;
+    c = C;
+    r = Diameter;
+    scale = Scale;
+  }  
+  
+  void display() {
+    noStroke();
+    fill(c);
+    for (int i = 0; i <4; i++){
+      pushMatrix();
+      translate(x + xDislocation + i * 1.6 * r, y + yDislocation);
+      rotate(radians(350+i*6.66));
+      ellipse(0, 0, r*0.6, 22*r); 
+      popMatrix();
+    }
+  }
+}
+  
+  
+class CoupleShape{
+  
+  void display() {
+    noStroke();
+    fill(247,214,22);
+    beginShape();
+    curveVertex(228,601);
+    curveVertex(204,519);
+    curveVertex(194,478);
+    curveVertex(188,401);
+    curveVertex(182,299);
+    curveVertex(184,224);
+    curveVertex(197,121);
+    curveVertex(191,70);
+    curveVertex(208,33);
+    curveVertex(241,14);
+    curveVertex(283,5);
+    curveVertex(322, 2);
+    curveVertex(368,1);
+    curveVertex(417,7);
+    curveVertex(467,36);
+    curveVertex(494,81);
+    curveVertex(500,125);
+    curveVertex(485,172);
+    curveVertex(487,207);
+    curveVertex(505,252);
+    curveVertex(521,297);
+    curveVertex(527,332);
+    curveVertex(529,356);
+    curveVertex(526,376);
+    curveVertex(537,401);
+    curveVertex(544,459);
+    curveVertex(544,509);
+    curveVertex(537,541);
+    curveVertex(507,550);
+    curveVertex(482,563);
+    curveVertex(463,573);
+    curveVertex(444,581);
+    curveVertex(427,598);
+    curveVertex(398,611);
+    curveVertex(368,614);
+    curveVertex(349,618);
+    curveVertex(328,623);
+    curveVertex(297,623);
+    curveVertex(263,619);
+    curveVertex(237,607);
+    curveVertex(228,599);
+    curveVertex(224,583);
+    endShape();    
+  }
+}
+
+class CoupleLoop {
+  int x;
+  int y;
+  int rchange;
+  int loopNumber;
+  int xbegin;
+  int ybegin;
+
+  color c;
+  
+  CoupleLoop(int xTemp, int yTemp, int xStart, int yStart, int rRandom, int nRandom, color C) {
+    rchange = rRandom;
+    loopNumber = nRandom;
+    c = C;
+    xbegin = xStart;
+    ybegin = yStart;
+    x = xStart + xTemp * 29;
+    y = yStart + yTemp * 34 ;
+  }  
+  
+  void display() {
+    strokeWeight(3);
+    stroke(247,169,22);
+    ellipse(x - 3 *rchange, y + 5*rchange, loopNumber + rchange, loopNumber + rchange);
+    ellipse(x - 3 *rchange, y + 5*rchange, loopNumber + rchange - 10, loopNumber + rchange - 10);
+    ellipse(x - 3 *rchange, y + 5*rchange, loopNumber + rchange - 20, loopNumber + rchange - 20); 
+  }
+}
+
+class ManClothShape{
+  
+  void display() {
+    stroke(0);
+    strokeWeight(1);
+    fill(250,203,45);
+    beginShape();
+    curveVertex(253,44);
+    curveVertex(250,48);
+    curveVertex(235,55);
+    curveVertex(220,66);
+    curveVertex(205,89);
+    curveVertex(195,126);
+    curveVertex(190,172);
+    curveVertex(185,228);
+    curveVertex(186,258);
+    curveVertex(182,290);
+    curveVertex(187,334);
+    curveVertex(188,398);
+    curveVertex(193,446);
+    curveVertex(193,473);
+    curveVertex(204,511);
+    curveVertex(221,572);
+    curveVertex(227,596);
+    curveVertex(241,610);
+    curveVertex(250,616);
+    curveVertex(269,618);
+    curveVertex(302,622);
+    curveVertex(336,623);
+    curveVertex(358,616);
+    curveVertex(369,613);
+    curveVertex(363,607);
+    curveVertex(355,592);
+    curveVertex(357,548);
+    curveVertex(360,525);
+    curveVertex(360,498);
+    curveVertex(358,483);
+    curveVertex(349,450);
+    curveVertex(350,417);
+    curveVertex(352,389);
+    curveVertex(350,363);
+    curveVertex(347,341);
+    curveVertex(337,325);
+    curveVertex(337,299);
+    curveVertex(337,271);
+    curveVertex(337,251);
+    curveVertex(342,219);
+    curveVertex(352,205);
+    curveVertex(365,179);
+    curveVertex(378,174);
+    curveVertex(400,146);
+    curveVertex(385,121);
+    curveVertex(375,102);
+    curveVertex(357,92);
+    curveVertex(341,93);
+    curveVertex(317,89);
+    curveVertex(297,86);
+    curveVertex(282,81);
+    curveVertex(262,64);
+    curveVertex(258,50);
+    curveVertex(255,48);
+    curveVertex(253,46);
+    endShape();    
+  }
+}
+
+
+class ManClothSquare {
+  int x;
+  int y;
+  int xbegin;
+  int ybegin;
+  int squareWidth;
+  int dislocation;
+  int wRandom;
+  int cRandom;
+
+  ManClothSquare (int xTemp, int yTemp, int xStart, int yStart, int dislocationRandom, int widthRandom, int colorRandom) {
+    xbegin = xStart;
+    ybegin = yStart;
+    x = xStart + x * 30;
+    y = yStart + y * 40;
+    dislocation = dislocationRandom;
+    wRandom = widthRandom;
+    cRandom = colorRandom;
+  }  
+  
+  void display() {
+
+    fill(255 - cRandom, 226 + 0.1 * cRandom, cRandom);
+    rect(x, y, wRandom, wRandom * 2);
+    
+  }
+}
+
+
+
+
+
+
+
+
